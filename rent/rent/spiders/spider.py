@@ -25,7 +25,7 @@ class SpiderSpider(scrapy.Spider):
 
             purpose=response.xpath('//li/span[@aria-label="Purpose"]/text()').extract()[0]
 
-            type_r=response.xpath('//li/span[@aria-label="Type"]/text()').extract_first()
+            type_r=response.xpath('//span[@aria-label="Type"]/text()').extract_first()
 
             added_on=response.xpath('//li/span[@aria-label="Reactivated date"]/text()').extract()[0]
 
