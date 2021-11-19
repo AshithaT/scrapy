@@ -6,12 +6,7 @@ class SpiderSpider(scrapy.Spider):
     allowed_domains = ['bayut.com']
     start_urls = ['https://www.bayut.com/to-rent/property/dubai/']
 
-    # def start_requests(self):
-    #     url=['https://www.bayut.com/to-rent/property/dubai/?furnishing_status=furnished']
-    #     yield scrapy.Request(url='all_rents', callback=self.parse)
 
-    # def parse1(self,response):
-    #     return scrapy.request("https://www.bayut.com/to-rent/property/dubai/?furnishing_status=furnished",callback=self.parse)
 
     def parse(self, response):
          all_rents = response.xpath('//a[@aria-label="Listing link"]/@href').getall()
@@ -36,22 +31,24 @@ class SpiderSpider(scrapy.Spider):
             amenities=response.xpath('//h3[@class="_80d7dffa"]').extract()
             description=response.xpath('//div/span[@class="cf44e740"]').extract()
 
-            print(title)
-            print(reff_num)
-            print(purpose)
-            print(type_r)
-            print(added_on)
-            print(furnishing)
-            print(price)
-            print(location)
-            print(bed_bath_size)
-            print(permit_number)
-            print(agent_name)
-            print(image_url)
-            print(breadcrumbs)
-            print(amenities)
-            print(description)
-
+            yield
+            {
+              'title':title,
+              'reff_num':reff_num,
+              'purpose':purpose,
+              'type_r':type_r,
+              'added on':added_on,
+              'furnishing':furnishing,
+              'price':price,
+              'location':location,
+              'bed_bath_size':bed_bath_size,
+              'permit_number':permit_number,
+              'agent_name':agent_name,
+              'image_url':image_url,
+              'breadcrumbs':breadcrumbs,
+              'amenities':aminities,
+              'description':description,
+             }
 
          
 
