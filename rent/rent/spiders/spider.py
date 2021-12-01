@@ -41,15 +41,13 @@ class SpiderSpider(scrapy.Spider):
 
             bed_bath_size= response.xpath('//div[@class="_6f6bb3bc"]//text()').extract()
 
-
             permit_number=response.xpath('//div/span[@class="ff863316"]/text()').extract()[0]
 
             agent_name=response.xpath('//div/span[@aria-label="Agent name"]/text()').extract()[0]
 
-            image_url=self.start_urls[0] + ','.join(response.xpath('//div[@class="a8e3563c"]/@src'))
+            image_url=self.start_urls[0] + ','.join(response.xpath('//svg[@class="a8e3563c"]/@xmlns').extract())
 
-            breadcrumbs=response.xpath('//div[@aria-label="Breadcrumb"]//text()').extract()[0]
-
+            breadcrumbs=response.xpath('//span[@aria-label="Link name"]//text()').extract()
 
             amenities=response.xpath('//div[@class="ef5bd664"]//text()').extract()
 
