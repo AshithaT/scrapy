@@ -5,22 +5,17 @@ class SpiderSpider(scrapy.Spider):
     name = 'spider'
     allowed_domains = ['bayut.com']
     start_urls = ['https://www.bayut.com/to-rent/property/dubai/']
-
+    
 
 
     def parse(self, response):
          
-         all_rents = response.xpath('//a[@aria-label="Listing link"]/@href').getall()
+        all_rents = response.xpath('//a[@aria-label="Listing link"]/@href').getall()
 
-         for link in all_rents:
+        for link in all_rents:
             yield scrapy.Request('https://www.bayut.com'+link,callback=self.parse1)
-
-    def parse2(self, response):
-         
-         nex = response.xpath('//a[@title="Next"]/@href').getall()
-
-         for link in nex:
-            yield scrapy.Request('https://www.bayut.com'+link,callback=self.parse1)     
+        
+        
             
     def parse1(self, response): 
     
@@ -35,7 +30,7 @@ class SpiderSpider(scrapy.Spider):
 
             furnishing=response.xpath('//li/span[@aria-label="Furnishing"]/text()').extract()
 
-            Price = response.xpath('//div/span[@aria-label="Price"]/text()').extract()[0]
+            Price =response.xpath('//div/span[@aria-label="Price"]/text()').extract()[0]
 
             location=response.xpath('//div[@aria-label="Property header"]/text()').extract()[0]
 
@@ -45,15 +40,15 @@ class SpiderSpider(scrapy.Spider):
 
             agent_name=response.xpath('//div/span[@aria-label="Agent name"]/text()').extract()[0]
 
-            image_url=self.start_urls[0] + ','.join(response.xpath('//svg[@class="a8e3563c"]/@xmlns').extract())
+            image_url=response.xpath('//svg[@class="a8e3563c"]/@xmlns').extract()
 
             breadcrumbs=response.xpath('//span[@aria-label="Link name"]//text()').extract()
 
             amenities=response.xpath('//div[@class="ef5bd664"]//text()').extract()
 
             description=response.xpath('//div[@aria-label="Property description"]//text()').extract()[0]
- 
-        
+            
+            
             yield {
               
               'ref_num':reff_num,
@@ -70,10 +65,16 @@ class SpiderSpider(scrapy.Spider):
               'breadcrumbs':breadcrumbs,
               'amenities':amenities,
               'description':description,
+
              }
+            Next = response.xpath('//a[@title="Next"]/@href').get()
+            
+            if Next is not None:
+               pg_url = f"https://www.bayut.com{Next}"
+               request=scrapy.Request(url=pg_url,callback=self.parse1) 
+               yield request   
 
-    
-
+            
 
 
 
