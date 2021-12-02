@@ -26,13 +26,13 @@ class SpiderSpider(scrapy.Spider):
     def parse1(self, response): 
     
 
-            reff_num=response.xpath('//span[@aria-label="Reference"]/text()').extract()[0]
+            reff_num=response.xpath('//span[@aria-label="Reference"]/text()').extract() 
 
-            purpose=response.xpath('//li/span[@aria-label="Purpose"]/text()').extract()[0]
+            purpose=response.xpath('//li/span[@aria-label="Purpose"]/text()').extract()
 
             type_r=response.xpath('//span[@aria-label="Type"]/text()').extract_first()
 
-            added_on=response.xpath('//li/span[@aria-label="Reactivated date"]/text()').extract()[0]
+            added_on=response.xpath('//li/span[@aria-label="Reactivated date"]/text()').extract()
 
             furnishing=response.xpath('//li/span[@aria-label="Furnishing"]/text()').extract()
 
@@ -40,7 +40,7 @@ class SpiderSpider(scrapy.Spider):
 
             currency=response.xpath('//div/span[@aria-label="Currency"]/text()').extract()
 
-            location=response.xpath('//div[@aria-label="Property header"]/text()').extract()[0]
+            location=response.xpath('//div[@aria-label="Property header"]/text()').extract()
 
             bed= response.xpath('//span[@aria-label="Beds"]//text()').extract()
 
@@ -48,39 +48,39 @@ class SpiderSpider(scrapy.Spider):
 
             size=response.xpath('//span[@aria-label="Area"]//text()').extract()
 
-            permit_number=response.xpath('//div/span[@class="ff863316"]/text()').extract()[0]
+            permit_number=response.xpath('//div/span[@class="ff863316"]/text()').extract()
 
-            agent_name=response.xpath('//div/span[@aria-label="Agent name"]/text()').extract()[0]
+            agent_name=response.xpath('//div/span[@aria-label="Agent name"]/text()').extract()
 
-            image_url=response.xpath('//svg[@class="a8e3563c"]/@xmlns').extract()
+            image_url=response.xpath('//img[@title="1 "]/@src').extract()
 
-            breadcrumbs=response.xpath('//span[@aria-label="Link name"]//text()').extract()
+            breadcrumbs='>'.join(response.xpath('//span[@aria-label="Link name"]//text()').extract()) 
 
             amenities=response.xpath('//div[@class="ef5bd664"]//text()').extract()
 
-            description=response.xpath('//div[@aria-label="Property description"]//text()').extract()[0]
+            description=response.xpath('//div[@aria-label="Property description"]//text()').extract()
             
             
             yield {
               
-              # 'ref_num':reff_num,
-              # 'purpose':purpose,
-              # 'type_r':type_r,
-              # 'added on':added_on,
-              # 'furnishing':furnishing,
+              'ref_num':reff_num,
+              'purpose':purpose,
+              'type_r':type_r,
+              'added on':added_on,
+              'furnishing':furnishing,
               'Price':{'Price':Price,
                        'currency':currency},
-              # 'location':location,
+              'location':location,
               'bed_bath_size':{'bed' :bed,
                                'bath':bath,
                                'size':size},
                                           
-              # 'permit_number':permit_number,
-              # 'agent_name':agent_name,
-              # 'image_url':image_url,
-              # 'breadcrumbs':breadcrumbs,
-              # 'amenities':amenities,
-              # 'description':description,
+              'permit_number':permit_number,
+              'agent_name':agent_name,
+              'image_url':image_url,
+              'breadcrumbs':breadcrumbs,
+              'amenities':amenities,
+              'description':description,
 
             }
             
