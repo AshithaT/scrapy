@@ -16,11 +16,13 @@ class SpiderSpider(scrapy.Spider):
             yield scrapy.Request('https://www.bayut.com'+link,callback=self.parse1)
 
         Next = response.xpath('//a[@title="Next"]/@href').get()
-            
+           
         if Next is not None:
                   pg_url = f"https://www.bayut.com{Next}"
-                  request=scrapy.Request(url=pg_url,callback=self.parse1) 
+                  request=scrapy.Request(url=pg_url,callback=self.parse) 
                   yield request 
+                  
+
              
             
     def parse1(self, response): 
@@ -68,8 +70,9 @@ class SpiderSpider(scrapy.Spider):
               'type_r':type_r,
               'added on':added_on,
               'furnishing':furnishing,
-              'Price':{'Price':Price,
-                       'currency':currency},
+              'Price':{'currency':currency,
+                       'amount':Price,
+                       },
               'location':location,
               'bed_bath_size':{'bed' :bed,
                                'bath':bath,
